@@ -13,7 +13,7 @@ class Gembeam extends StatefulWidget {
 class _GembeamState extends State<Gembeam> {
   TextEditingController promptController = TextEditingController();
   static const apiKey = "AIzaSyCdj73yOD4pgvLkoe-o1D5rAzOaAIVy_xg";
-  final model = GenerativeModel(model: "geminipro", apiKey: apiKey);
+  final model = GenerativeModel(model: "gemini-1.5-flash", apiKey: apiKey);
 
   final List<ModelMessage> prompt = [];
 
@@ -47,8 +47,20 @@ class _GembeamState extends State<Gembeam> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.black,
       appBar: AppBar(
-        title: const Text("GemBeam"),
+        elevation: 3,
+        backgroundColor: Colors.deepPurpleAccent,
+        title: const Center(
+          child: Text(
+            "GemBeam",
+            style: TextStyle(
+              fontSize: 26,
+              fontWeight: FontWeight.w400,
+              color: Colors.black87,
+            ),
+          ),
+        ),
       ),
       body: Column(
         children: [
@@ -74,7 +86,7 @@ class _GembeamState extends State<Gembeam> {
                   child: TextField(
                     controller: promptController,
                     style: const TextStyle(
-                      color: Colors.black,
+                      color: Colors.white38,
                       fontSize: 20,
                     ),
                     decoration: InputDecoration(
@@ -87,7 +99,9 @@ class _GembeamState extends State<Gembeam> {
                 ),
                 const Spacer(),
                 GestureDetector(
-                  onTap: () {},
+                  onTap: () {
+                    sendMessage();
+                  },
                   child: const CircleAvatar(
                     radius: 29,
                     backgroundColor: Colors.deepPurple,
@@ -120,7 +134,7 @@ Container UserPrompt({
       right: isPrompt ? 15 : 80,
     ),
     decoration: BoxDecoration(
-      color: isPrompt ? Colors.green : Colors.grey,
+      color: isPrompt ? Colors.deepPurple : Colors.white10,
       borderRadius: BorderRadius.only(
         topLeft: const Radius.circular(20),
         topRight: const Radius.circular(20),
@@ -137,7 +151,7 @@ Container UserPrompt({
           style: TextStyle(
             fontWeight: isPrompt ? FontWeight.bold : FontWeight.normal,
             fontSize: 18,
-            color: isPrompt ? Colors.white : Colors.black,
+            color: isPrompt ? Colors.white : Colors.white24,
           ),
         ),
         // for prompt and respond time
@@ -145,7 +159,7 @@ Container UserPrompt({
           date,
           style: TextStyle(
             fontSize: 14,
-            color: isPrompt ? Colors.white : Colors.black,
+            color: isPrompt ? Colors.white : Colors.white12,
           ),
         ),
       ],
