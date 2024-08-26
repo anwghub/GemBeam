@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:gembeam/screens/model.dart';
 import 'package:google_generative_ai/google_generative_ai.dart';
 import 'package:intl/intl.dart';
@@ -12,14 +13,19 @@ class Gembeam extends StatefulWidget {
 
 class _GembeamState extends State<Gembeam> {
   TextEditingController promptController = TextEditingController();
-  static const apiKey = "AIzaSyCdj73yOD4pgvLkoe-o1D5rAzOaAIVy_xg";
-  final model = GenerativeModel(model: "gemini-1.5-flash", apiKey: apiKey);
+  late final GenerativeModel model;
 
   final List<ModelMessage> prompt = [];
 
+  @override
+  void initState() {
+    super.initState();
+    final apiKey = dotenv.env['MY_API_KEY'] ?? '';
+    model = GenerativeModel(model: "gemini-1.5-flash", apiKey: apiKey);
+  }
+
   Future<void> sendMessage() async {
     final message = promptController.text;
-    // for prompt
     setState(() {
       promptController.clear();
       prompt.add(
@@ -30,7 +36,6 @@ class _GembeamState extends State<Gembeam> {
         ),
       );
     });
-    // for respond
     final content = [Content.text(message)];
     final response = await model.generateContent(content);
     setState(() {
